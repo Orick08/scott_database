@@ -1,0 +1,31 @@
+{%extends 'base.html'%} {% block content %}
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Job</th>
+        <th scope="col">MGR</th>
+        <th scope="col">Hire Date</th>
+        <th scope="col">SAL</th>
+        <th scope="col">COMM</th>
+        <th scope="col">Department</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for emp in emps %}
+            <tr>
+                <th scope="row">{{emp.EMPNO}}</th>
+                <td>{{emp.ENAME}}</td>
+                <td>{{emp.JOB}}</td>
+                <td>{{emp.MGR}}</td>
+                <td>{{emp.HIREDATE}}</td>
+                <td>{{emp.SAL}}</td>
+                <td>{{emp.COMM}}</td>
+                <td>{{emp.DEPTNO}}</td>
+            </tr>
+        {% endfor %}
+      
+    </tbody>
+  </table>
+{%endblock%}
