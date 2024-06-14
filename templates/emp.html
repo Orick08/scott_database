@@ -10,6 +10,7 @@
         <th scope="col">SAL</th>
         <th scope="col">COMM</th>
         <th scope="col">Department</th>
+        <th scope="col">Editar</th>
       </tr>
     </thead>
     <tbody>
@@ -23,9 +24,15 @@
                 <td>{{emp.SAL}}</td>
                 <td>{{emp.COMM}}</td>
                 <td>{{emp.DEPTNO}}</td>
+                <td>
+                    <a href="#">{%include 'icons/pencil.html'%}</a>
+                </td>
             </tr>
         {% endfor %}
       
     </tbody>
   </table>
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a class="btn btn-primary" href="#" role="button">Agregar empleado</a>
+  </div>
 {%endblock%}

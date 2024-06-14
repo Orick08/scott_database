@@ -5,6 +5,7 @@
         <th scope="col">ID</th>
         <th scope="col">Dept Name</th>
         <th scope="col">Location</th>
+        <th scope="col">Editar</th>
       </tr>
     </thead>
     <tbody>
@@ -13,9 +14,15 @@
                 <th scope="row">{{dept.DEPTNO}}</th>
                 <td>{{dept.DNAME}}</td>
                 <td>{{dept.LOC}}</td>
+                <td>
+                    <a href="#">{%include 'icons/pencil.html'%}</a>
+                </td>
             </tr>
         {% endfor %}
       
     </tbody>
   </table>
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a class="btn btn-primary" href="#" role="button">Agregar departamento</a>
+  </div>
 {%endblock%}
