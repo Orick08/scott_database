@@ -1,0 +1,21 @@
+{%extends 'base.html'%} {% block content %}
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Dept Name</th>
+        <th scope="col">Location</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for dept in depts %}
+            <tr>
+                <th scope="row">{{dept.DEPTNO}}</th>
+                <td>{{dept.DEPTname}}</td>
+                <td>{{dept.LOC}}</td>
+            </tr>
+        {% endfor %}
+      
+    </tbody>
+  </table>
+{%endblock%}
