@@ -1,6 +1,9 @@
 from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+
+from models.models import db
+
+from routes.dept import dept_bp, new_dept_bp
+from routes.emp import emp_bp, new_emp_bp
 
 app = Flask(__name__)
 
@@ -8,36 +11,17 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:admin123@localhost/scott'
 app.config['SECRET_KEY'] = 'my super secret key'
 # Initialize datbase
-db = SQLAlchemy(app)
-
-# Create a models
-class Dept(db.Model):
-    DEPTNO = db.Column(db.Integer, primary_key=True)
-    DNAME = db.Column(db.String(10), nullable=False)
-    LOC = db.Column(db.String(13), nullable=False)
-
-class Emp(db.Model):
-    EMPNO = db.Column(db.Integer, primary_key=True)
-    ENAME = db.Column(db.String(10), nullable=False)
-    JOB = db.Column(db.String(9))
-    MGR = db.Column(db.Integer)
-    HIREDATE = db.Column(db.DateTime)
-    SAL = db.Column(db.Double)
-    COMM = db.Column(db.Double)
-    DEPTNO = db.Column(db.Integer, db.ForeignKey("DEPT.DEPTNO"))
+db.init_app(app)
 
 @app.route('/')
 def home():
     return render_template('index.html')
 
-@app.route('/dept')
-def view_dept():
-    depts = Dept.query.all()
-    return render_template('dept.html', depts=depts)
+app.register_blueprint(dept_bp)
+app.register_blueprint(new_dept_bp)
 
-@app.route('/emp')
-def view_emp():
-    emps = Emp.query.all()
-    return render_template('emp.html', emps=emps)
+app.register_blueprint(emp_bp)
+app.register_blueprint(new_emp_bp)
+
 
 app.run(host='0.0.0.0', port=3000, debug=True)
