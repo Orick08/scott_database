@@ -1,0 +1,32 @@
+{% extends 'base.html'%} {% block content %} 
+<h1>Create a new EMP</h1>
+<br />
+<form method="POST">
+  {{form.hidden_tag()}} 
+  
+  {{form.name.label(class='form-label')}}
+  {{form.name(class='form-control')}}
+  <br />
+  {{form.job.label(class='form-label')}}
+  {{form.job(class='form-control')}}
+  <br />
+  {{form.mng.label(class='form-label')}}
+  {{form.mng(class='form-control')}}
+  <br />
+  {{form.hiredate.label(class='form-label')}}
+  {{form.hiredate(class='form-control')}}
+  <br />
+  {{form.sal.label(class='form-label')}}
+  {{form.sal(class='form-control')}}
+  <br />
+  {{form.comm.label(class='form-label')}}
+  {{form.comm(class='form-control')}}
+  <br />
+  {{form.dept.label(class='form-label')}}
+  {{form.dept(class='form-control')}}
+  <br />
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    {{form.submit(class='btn btn-success')}}
+  </div>
+</form>
+ {% endblock %}

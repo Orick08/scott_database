@@ -1,4 +1,5 @@
 from .models import db
+from models.dept import Dept
 
 class Emp(db.Model):
     EMPNO = db.Column(db.Integer, primary_key=True)
@@ -8,4 +9,4 @@ class Emp(db.Model):
     HIREDATE = db.Column(db.DateTime)
     SAL = db.Column(db.Double)
     COMM = db.Column(db.Double)
-    DEPTNO = db.Column(db.Integer, db.ForeignKey("DEPT.DEPTNO"))
+    DEPTNO = db.Column(db.Integer, db.ForeignKey(Dept.DEPTNO))
