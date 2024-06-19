@@ -1,0 +1,15 @@
+{% extends 'base.html'%} {% block content %} 
+<h1>Create a new DEPT</h1>
+<br />
+<form method="POST">
+  {{form.hidden_tag()}} 
+  
+  {{form.name.label(class='form-label')}}
+  {{form.name(class='form-control')}}
+  <br />
+  {{form.location.label(class='form-label')}}
+  {{form.location(class='form-control')}}
+  <br />
+  {{form.submit(class='btn btn-success')}}
+</form>
+ {% endblock %}
