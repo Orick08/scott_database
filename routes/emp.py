@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, DateField, FloatField, SelectField, SubmitField
+from wtforms import StringField, IntegerField, DateField, FloatField, SelectField, HiddenField, SubmitField
 from wtforms.validators import DataRequired, Length
 from models.models import db
 from models.dept import Dept
@@ -8,6 +8,7 @@ from models.emp import Emp
 
 emp_bp = Blueprint('emp', __name__)
 new_emp_bp = Blueprint('new_emp', __name__)
+edit_emp_bp = Blueprint('edit_emp', __name__)
 
 @emp_bp.route('/emp')
 def view_emp():
@@ -40,3 +41,50 @@ def new_emp():
     depts = Dept.query.all()
     form.dept.choices = [(dept.DEPTNO, f"{dept.DNAME} | {dept.LOC}") for dept in depts]
     return render_template('new_emp.html', form=form)
+
+#Edit emp
+class EditEmpForm(FlaskForm):
+    id = HiddenField("EMPNO", validators=[DataRequired()])
+    name = StringField('Name', validators=[DataRequired(), Length(1, 10)])
+    job = StringField('Job', validators=[DataRequired(), Length(1,8)])
+    mng = IntegerField('MNG')
+    hiredate = DateField('Hire Date', validators=[DataRequired()])
+    sal = FloatField('Salary', validators=[DataRequired()])
+    comm = FloatField('COMM')
+    dept = SelectField('Department', validators=[DataRequired()], coerce=int)
+    submit = SubmitField('Submit')
+
+@edit_emp_bp.route('/emp/edit/<id>', methods=['GET', 'POST'])
+def edit_emp(id):
+    form = EditEmpForm()
+    depts = Dept.query.all()
+    form.dept.choices = [(dept.DEPTNO, f"{dept.DNAME} | {dept.LOC}") for dept in depts]
+    # Edit emp on database
+    if form.validate_on_submit():
+        print('Im going to redirect')
+        edit_emp = Emp.query.get(form.id.data)
+        edit_emp.ENAME = form.name.data
+        edit_emp.JOB = form.job.data
+        edit_emp.MGR = form.mng.data
+        edit_emp.HIREDATE = form.hiredate.data
+        edit_emp.SAL = form.sal.data
+        edit_emp.COMM = form.comm.data
+        edit_emp.DEPTNO = form.dept.data
+        db.session.commit()
+        return redirect('/emp')
+    
+    print('No redirect')
+    # Render edit emp form
+    emp = Emp.query.get(id)
+    if emp is None:
+        return redirect('/emp')
+    
+    form.id.data = emp.EMPNO
+    form.name.data = emp.ENAME
+    form.job.data = emp.JOB
+    form.mng.data = emp.MGR
+    form.hiredate.data = emp.HIREDATE
+    form.sal.data = emp.SAL
+    form.comm.data = emp.COMM
+    form.dept.data = emp.DEPTNO
+    return render_template('edit_emp.html', form=form)

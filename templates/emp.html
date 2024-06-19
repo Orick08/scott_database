@@ -25,7 +25,7 @@
                 <td>{{emp.COMM}}</td>
                 <td>{{emp.DEPTNO}}</td>
                 <td>
-                    <a href="#">{%include 'icons/pencil.html'%}</a>
+                    <a href="/emp/edit/{{emp.EMPNO}}">{%include 'icons/pencil.html'%}</a>
                 </td>
             </tr>
         {% endfor %}

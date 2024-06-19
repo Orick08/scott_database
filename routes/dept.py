@@ -44,7 +44,9 @@ class EditDeptForm(FlaskForm):
 def edit_dept(id):
     # Edit dept
     form = EditDeptForm()
+    print(form.validate_on_submit())
     if form.validate_on_submit():
+        print('Im going to redirect')
         edit_dept = Dept.query.get(form.id.data)
         edit_dept.DEPTNO = form.id.data
         edit_dept.DNAME = form.name.data
