@@ -28,8 +28,6 @@ class NewEmpForm(FlaskForm):
 def new_emp():
     # Create a new emp
     form = NewEmpForm()
-    depts = Dept.query.all()
-    form.dept.choices = [(dept.DEPTNO, f"{dept.DNAME} | {dept.LOC}") for dept in depts]
     if form.validate_on_submit():
         emp = Emp(ENAME=form.name.data,JOB=form.job.data
                   ,MGR=form.mng.data,HIREDATE=form.hiredate.data,
@@ -39,4 +37,6 @@ def new_emp():
         return redirect('/emp')
     
     # Render new emp form
+    depts = Dept.query.all()
+    form.dept.choices = [(dept.DEPTNO, f"{dept.DNAME} | {dept.LOC}") for dept in depts]
     return render_template('new_emp.html', form=form)

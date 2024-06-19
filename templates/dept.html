@@ -15,7 +15,7 @@
                 <td>{{dept.DNAME}}</td>
                 <td>{{dept.LOC}}</td>
                 <td>
-                    <a href="#">{%include 'icons/pencil.html'%}</a>
+                    <a href="/dept/edit/{{dept.DEPTNO}}">{%include 'icons/pencil.html'%}</a>
                 </td>
             </tr>
         {% endfor %}

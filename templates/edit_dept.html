@@ -1,0 +1,17 @@
+{% extends 'base.html'%} {% block content %} 
+<h1>Edit DEPT</h1>
+<br />
+<form method="POST">
+  {{form.hidden_tag()}} 
+  
+  {{form.name.label(class='form-label')}}
+  {{form.name(class='form-control')}}
+  <br />
+  {{form.location.label(class='form-label')}}
+  {{form.location(class='form-control')}}
+  <br />
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    {{form.submit(class='btn btn-success')}}
+  </div>
+</form>
+ {% endblock %}
