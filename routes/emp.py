@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, DateField, FloatField, SelectField, HiddenField, SubmitField
+from wtforms import StringField, IntegerField, DateField, FloatField, SelectField, HiddenField, BooleanField ,SubmitField
 from wtforms.validators import DataRequired, Length
 from models.models import db
 from models.dept import Dept
@@ -9,11 +9,17 @@ from models.emp import Emp
 emp_bp = Blueprint('emp', __name__)
 new_emp_bp = Blueprint('new_emp', __name__)
 edit_emp_bp = Blueprint('edit_emp', __name__)
+delete_emp_bp = Blueprint('delete_emp',__name__)
+
+class DeleteEmpForm(FlaskForm):
+    id = HiddenField('EMPNO', validators=[DataRequired()])
+    submit = SubmitField('Delete')
 
 @emp_bp.route('/emp')
 def view_emp():
+    form = DeleteEmpForm()
     emps = Emp.query.all()
-    return render_template('emp.html', emps=emps)
+    return render_template('emp.html', emps=emps, delete_form=form)
 
 class NewEmpForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(1, 10)])
@@ -29,6 +35,8 @@ class NewEmpForm(FlaskForm):
 def new_emp():
     # Create a new emp
     form = NewEmpForm()
+    depts = Dept.query.all()
+    form.dept.choices = [(dept.DEPTNO, f"{dept.DNAME} | {dept.LOC}") for dept in depts]
     if form.validate_on_submit():
         emp = Emp(ENAME=form.name.data,JOB=form.job.data
                   ,MGR=form.mng.data,HIREDATE=form.hiredate.data,
@@ -88,3 +96,16 @@ def edit_emp(id):
     form.comm.data = emp.COMM
     form.dept.data = emp.DEPTNO
     return render_template('edit_emp.html', form=form)
+
+# Delete EMP
+@delete_emp_bp.route('/emp/delete', methods=['POST'])
+def delete_emp():
+    form = DeleteEmpForm()
+    print(form.validate_on_submit())
+    if form.validate_on_submit():
+        emp = Emp.query.get(form.id.data)
+        if emp is None:
+            return redirect('/emp')
+        db.session.delete(emp)
+        db.session.commit()
+    return redirect('/emp')

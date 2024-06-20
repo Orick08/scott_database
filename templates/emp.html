@@ -26,6 +26,12 @@
                 <td>{{emp.DEPTNO}}</td>
                 <td>
                     <a href="/emp/edit/{{emp.EMPNO}}">{%include 'icons/pencil.html'%}</a>
+                    &nbsp;&nbsp;&nbsp;
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                     data-bs-id="{{emp.EMPNO}}"
+                     class="link-danger">
+                      {%include 'icons/trash.html'%}
+                    </a>
                 </td>
             </tr>
         {% endfor %}
@@ -35,4 +41,30 @@
   <div class="d-grid gap-2 d-md-flex justify-content-md-end">
     <a class="btn btn-primary" href="/emp/new" role="button">Agregar empleado</a>
   </div>
+
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-id="@mdo">Open modal for @mdo</button>
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-id="@fat">Open modal for @fat</button>
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-id="@getbootstrap">Open modal for @getbootstrap</button>
+  
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form class="modal-content" action="/emp/delete" method="POST">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="deleteModalLabel">¿Estas seguro que quieres elimnar este EMP?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            {{delete_form.hidden_tag()}}
+            <p>Si eliminas este empleado se perdera para siempre.</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+          {{delete_form.submit(class='btn btn-danger')}}
+        </div>
+      </form>
+    </div>
+  </div>
+
 {%endblock%}
