@@ -13,7 +13,7 @@ delete_emp_bp = Blueprint('delete_emp',__name__)
 
 class DeleteEmpForm(FlaskForm):
     id = HiddenField('EMPNO', validators=[DataRequired()])
-    submit = SubmitField('Delete')
+    submit = SubmitField('Eliminar')
 
 @emp_bp.route('/emp')
 def view_emp():
@@ -101,7 +101,6 @@ def edit_emp(id):
 @delete_emp_bp.route('/emp/delete', methods=['POST'])
 def delete_emp():
     form = DeleteEmpForm()
-    print(form.validate_on_submit())
     if form.validate_on_submit():
         emp = Emp.query.get(form.id.data)
         if emp is None:

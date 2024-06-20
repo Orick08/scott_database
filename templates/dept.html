@@ -16,6 +16,12 @@
                 <td>{{dept.LOC}}</td>
                 <td>
                     <a href="/dept/edit/{{dept.DEPTNO}}">{%include 'icons/pencil.html'%}</a>
+                    &nbsp;&nbsp;&nbsp;
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                     data-bs-id="{{dept.DEPTNO}}"
+                     class="link-danger">
+                      {%include 'icons/trash.html'%}
+                    </a>
                 </td>
             </tr>
         {% endfor %}
@@ -24,5 +30,27 @@
   </table>
   <div class="d-grid gap-2 d-md-flex justify-content-md-end">
     <a class="btn btn-primary" href="/dept/new" role="button">Agregar departamento</a>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form class="modal-content" action="/dept/delete" method="POST">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="deleteModalLabel">¿Estas seguro que quieres elimnar este DEPT?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            {{delete_form.hidden_tag()}}
+            <p>Si eliminas este departamento se perdera para siempre.</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+          {{delete_form.submit(class='btn btn-danger')}}
+        </div>
+      </form>
+    </div>
   </div>
 {%endblock%}
