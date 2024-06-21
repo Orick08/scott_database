@@ -34,6 +34,7 @@ def new_dept():
         dept = Dept(DNAME=form.name.data,LOC=form.location.data)
         db.session.add(dept)
         db.session.commit()
+        flash("Departamento agregado con éxito.")
         return redirect('/dept')
     
     # Render new dept form
@@ -58,11 +59,13 @@ def edit_dept(id):
         edit_dept.DNAME = form.name.data
         edit_dept.LOC = form.location.data
         db.session.commit()
+        flash("Departamento editado con éxito.")
         return redirect('/dept')
     
     # Render edit dept form
     dept = Dept.query.get(id)
     if dept is None:
+        flash("No se ha encontrado el departamento.")
         return redirect('/dept')
     form.id.data = dept.DEPTNO
     form.name.data = dept.DNAME
@@ -83,4 +86,5 @@ def delete_dept():
         except:
             flash("No puedes eliminar un departamento con empleados asignados, primero elimina/edita los empleados.")
             return redirect('/dept')
+    flash("Departamento eliminado con éxito.")
     return redirect('/dept')

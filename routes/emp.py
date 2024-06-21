@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect
+from flask import Blueprint, render_template, redirect, flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, DateField, FloatField, SelectField, HiddenField, BooleanField ,SubmitField
 from wtforms.validators import DataRequired, Length
@@ -43,6 +43,7 @@ def new_emp():
                   SAL=form.sal.data,COMM=form.comm.data,DEPTNO=form.dept.data)
         db.session.add(emp)
         db.session.commit()
+        flash("Empleado agregado con éxito.")
         return redirect('/emp')
     
     # Render new emp form
@@ -79,12 +80,14 @@ def edit_emp(id):
         edit_emp.COMM = form.comm.data
         edit_emp.DEPTNO = form.dept.data
         db.session.commit()
+        flash("Empleado editado con éxito.")
         return redirect('/emp')
     
     print('No redirect')
     # Render edit emp form
     emp = Emp.query.get(id)
     if emp is None:
+        flash("No se ha encontrado el empleado.")
         return redirect('/emp')
     
     form.id.data = emp.EMPNO
@@ -107,4 +110,5 @@ def delete_emp():
             return redirect('/emp')
         db.session.delete(emp)
         db.session.commit()
+    flash("Empleado eliminado con éxito.")
     return redirect('/emp')
