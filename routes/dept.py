@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect
+from flask import Blueprint, render_template, redirect, flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, HiddenField, SubmitField
 from wtforms.validators import DataRequired, Length
@@ -77,6 +77,10 @@ def delete_dept():
         dept = Dept.query.get(form.id.data)
         if dept is None:
             return redirect('/dept')
-        db.session.delete(dept)
-        db.session.commit()
+        try:
+            db.session.delete(dept)
+            db.session.commit()
+        except:
+            flash("No puedes eliminar un departamento con empleados asignados, primero elimina/edita los empleados.")
+            return redirect('/dept')
     return redirect('/dept')
